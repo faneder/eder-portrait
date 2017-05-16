@@ -1,0 +1,334 @@
+//----------------------------
+// variabals
+//----------------------------
+$black: #000000;
+$white: #fff;
+$body-bg: #ecdaab;
+$base-bg: #e4bba7;
+$base-shadow-color: rgba(152, 80, 55, 0.3);
+$head-bg: $base-bg;
+$hair-bg: #2b271b;
+$eyebrow-bg: #532913;
+$eye-bg: #311e0f;
+$mouth-bg: #d68678;
+$jacket-bg: #000;
+$glasses-bg: rgba(189, 147, 100, 0.5);
+$glasses-thickness: 1px;
+$glasses-color: #000;
+$hair-height: 100%;
+$hair-width: 100%;
+$portrait-height: 60vh;
+$portrait-width: 60vh * 2 / 3;
+//----------------------------
+// mixin
+//----------------------------
+@mixin hair-pattern($deg, $color) {
+    background-color: $color;
+}
+
+// Browser Prefixes
+@mixin transform($transforms) {
+    -webkit-transform: $transforms;
+    -moz-transform: $transforms;
+    -ms-transform: $transforms;
+    -o-transform: $transforms;
+    transform: $transforms;
+}
+
+// Rotate
+@mixin rotate($deg) {
+    @include transform(rotate(#{$deg}deg));
+}
+
+// Translate
+@mixin translate ($x, $y) {
+    @include transform(translate($x, $y));
+}
+
+//----------------------------
+// animation
+//----------------------------
+@keyframes blink-eyes {
+    0% {
+        height: 7%;
+    }
+    5% {
+        height: 0%;
+        margin-top: 5%;
+    }
+    10% {
+        height: 7%;
+        margin-top: 0;
+    }
+    100% {
+        height: 7%;
+    }
+}
+
+@keyframes smile {
+    0% {
+        border-radius: 20%;
+    }
+    15% {
+        border-radius: 40%;
+    }
+    50% {
+        border-radius: 100%;
+    }
+}
+
+//----------------------------
+// base
+//----------------------------
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: inherit;
+}
+
+*:before,
+*:after {
+    content: "";
+}
+
+body {
+    background: $body-bg;
+}
+
+//----------------------------
+// portrait
+//----------------------------
+.portrait {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: $portrait-height;
+    width: $portrait-width;
+    @include translate(-50%, -50%);
+}
+
+.head {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: $hair-height;
+    width: $hair-width;
+    background: $head-bg;
+    border-top-right-radius: 50% 50%;
+    border-top-left-radius: 50% 50%;
+    border-bottom-right-radius: 60% 80%;
+    border-bottom-left-radius: 60% 80%;
+    @include translate(-50%, -50%);
+    .hair {
+        background: $hair-bg;
+        width: 125%;
+        height: 60%;
+        top: 0;
+        left: 50%;
+        border-top-right-radius: 50% 70%;
+        border-top-left-radius: 50% 70%;
+        border-bottom-left-radius: 15% 25%;
+        border-bottom-right-radius: 15% 25%;
+        @include translate(-50%, -5%);
+        &:before {
+            height: 35%;
+            width: 76%;
+            bottom: -2px;
+            left: 12%;
+            background: $base-bg;
+            border-top-right-radius: 50% 50%;
+            border-top-left-radius: 100% 100%;
+        }
+        .bangs {
+            position: absolute;
+            left: 20%;
+            bottom: 16%;
+            height: 21%;
+            width: 10%;
+            background: $hair-bg;
+            @include rotate(46);
+            &:after {
+                left: 60%;
+                top: -30%;
+                height: 30%;
+                width: 100%;
+                background: $hair-bg;
+                @include rotate(90);
+            }
+        }
+    }
+    .ear {
+        top: 50%;
+        height: 20%;
+        width: 10%;
+        background: $base-bg;
+        &.left {
+            left: 0;
+            transform: translateX(-30%) rotateZ(-10deg);
+            border-radius: 50% 80% 80% 30%;
+        }
+        &.right {
+            right: 0;
+            transform: translateX(30%) rotateZ(10deg);
+            border-radius: 80% 50% 30% 80%;
+        }
+    }
+    .eyebrow {
+        @include hair-pattern(90deg, $eyebrow-bg);
+        top: 48%;
+        height: 4%;
+        width: 30%;
+        border-radius: 70% 30% 70% 10%;
+        &:after {
+            left: 0;
+            bottom: -1px;
+            height: 50%;
+            width: 100%;
+            background: $base-bg;
+            border-radius: 50% 50% 0 0;
+        }
+        &.left {
+            left: 10%;
+            border-radius: 60% 30% 60% 10%;
+            transform: rotateZ(5deg);
+        }
+        &.right {
+            right: 10%;
+            border-radius: 30% 60% 10% 60%;
+            transform: rotateZ(-5deg);
+        }
+    }
+    .eye {
+        top: 56%;
+        height: 6%;
+        width: 22%;
+        overflow: hidden;
+        background: $white;
+        background-image: radial-gradient(circle at center, $black 0%, $black 14%, lighten($eye-bg, 10%) 15%, darken($eye-bg, 10%) 49%, $white 50%, $white 100%);
+        border-top: solid 3px #583519;
+        border-radius: 90% 10% 80% 30%;
+        animation: 3s blink-eyes infinite;
+        &.left {
+            left: 15%;
+            transform: rotateY(180deg);
+        }
+        &.right {
+            right: 15%;
+        }
+    }
+    .nose {
+        left: 50%;
+        top: 68%;
+        height: 5%;
+        width: 10%;
+        border-radius: 10%;
+        box-shadow: 2px 2px 0 0 $eyebrow-bg;
+        @include rotate(120);
+    }
+    .mouth {
+        top: 77%;
+        left: 50%;
+        height: 10%;
+        width: 35%;
+        background: $mouth-bg;
+        transform: translateX(-50%);
+        border-top-right-radius: 40% 40%;
+        border-top-left-radius: 40% 40%;
+        border-bottom-right-radius: 60% 80%;
+        border-bottom-left-radius: 60% 80%;
+        &:after {
+            top: -2px;
+            left: -1px;
+            height: 76%;
+            width: 105%;
+            background: $base-bg;
+            animation: 3s smile infinite;
+        }
+    }
+    .glasses {
+        top: 52%;
+        z-index: 2;
+        height: 15%;
+        width: 35%;
+        padding: 15px;
+        border: solid $glasses-thickness $glasses-color;
+        border-radius: 40%;
+        box-shadow: 0 1px 3px rgba(152, 80, 55, 0.3);
+        &.left {
+            left: 7%;
+            &:before {
+                top: 7%;
+                left: -37%;
+                height: $glasses-thickness;
+                width: 51%;
+                background: $glasses-color;
+                border-radius: 2px 0 0 2px;
+                box-shadow: 3px 5px 3px $base-shadow-color;
+                transform: rotateZ(66deg);
+            }
+        }
+        &.right {
+            right: 7%;
+            &:after {
+                top: 7%;
+                right: -37%;
+                height: $glasses-thickness;
+                width: 50%;
+                background: $glasses-color;
+                border-radius: 0 2px 2px 0;
+                box-shadow: -3px 5px 3px $base-shadow-color;
+                transform: rotateZ(-66deg);
+            }
+        }
+    }
+    .glasses-center {
+        top: 55%;
+        left: 50%;
+        z-index: 1;
+        height: 3%;
+        width: 18%;
+        background: $glasses-color;
+        border-radius: 50% 50% 0 0;
+        transform: translateX(-50%);
+        &:after {
+            left: 50%;
+            bottom: -30%;
+            height: 100%;
+            width: 100%;
+            background: $base-bg;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset 0 5px 3px $base-shadow-color;
+        }
+    }
+}
+
+.jacket {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: -1;
+    height: 32%;
+    width: 150%;
+    background: $jacket-bg;
+    transform: translateX(-50%);
+    border-top-left-radius: 30% 80%;
+    border-top-right-radius: 30% 80%;
+    box-shadow: inset 0 30px 30px fade($jacket-bg);
+    margin-top: 5%;
+    &:before {
+        top: -40%;
+        left: 50%;
+        height: 70%;
+        width: 25%;
+        background: $jacket-bg;
+        border-top-left-radius: 50% 20%;
+        border-top-right-radius: 50% 20%;
+        border-bottom-left-radius: 50% 20%;
+        border-bottom-right-radius: 50% 20%;
+        transform: translateX(-50%);
+    }
+}
